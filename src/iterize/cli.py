@@ -16,7 +16,6 @@ Why does this file exist, and why not put this in __main__?
 """
 import sys
 
-
 def main(argv=sys.argv):
     """
     Args:
@@ -27,5 +26,5 @@ def main(argv=sys.argv):
 
     Does stuff.
     """
-    print(argv)
+    #print(argv)
     return 0

@@ -25,6 +25,22 @@ def read(*names, **kwargs):
         encoding=kwargs.get('encoding', 'utf8')
     ).read()
 
+def get_buildnr():
+    buildnr = "."
+    """
+    try:
+        buildnr += subprocess.check_output(['git', 'show', '-s', '--format=%ct', 'HEAD^{commit}']).decode(
+            'latin-1').strip()
+    except Exception:
+        buildnr = ""
+    """
+    tmp = environ.get("TRAVIS_BUILD_NUMBER", None)
+    if tmp:
+        buildnr += tmp
+    else:
+        buildnr = ""
+    return buildnr
+
 
 # Enable code coverage for C code: we can't use CFLAGS=-coverage in tox.ini, since that may mess with compiling
 # dependencies (e.g. numpy). Therefore we set SETUPPY_CFLAGS=-coverage in tox.ini and copy it to CFLAGS here (after
@@ -59,7 +75,7 @@ class optional_build_ext(build_ext):
 
 setup(
     name='iterize',
-    version='0.1.0',
+    version='0.1.0{}'.format(get_buildnr()),
     license='MIT license',
     description='Python optimisation Framework using iterative repair. ',
     long_description='%s\n%s' % (
